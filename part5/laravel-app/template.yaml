@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PHPLaravelTestSAMAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+  PHPLaravelTestSAMFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PHPLaravelTestSAM
+      CodeUri: src
+      Runtime: provided
+      Handler: public/index.php
+      Layers: 
+        - （レイヤーARN）
+      Environment:
+        Variables:
+          CACHE_DRIVER: array
+          LOG_CHANNEL: stderr
+          SESSION_DRIVER: array
+      Events:
+        rootAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPLaravelTestSAMAPI
+            Path: /
+            Method: ANY
+        proxyAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPLaravelTestSAMAPI
+            Path: /{proxy+}
+            Method: ANY

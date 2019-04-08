@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PHPYiiTestSAMAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+  PHPYiiTestSAMFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PHPYiiTestSAM
+      CodeUri: src
+      Runtime: provided
+      Handler: web/index.php
+      Layers: 
+        - （レイヤーARN）
+      Events:
+        rootAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPYiiTestSAMAPI
+            Path: /
+            Method: ANY
+        proxyAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPYiiTestSAMAPI
+            Path: /{proxy+}
+            Method: ANY

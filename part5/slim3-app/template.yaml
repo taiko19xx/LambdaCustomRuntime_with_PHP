@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PHPSlim3TestSAMAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+  PHPSlim3TestSAMFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PHPSlim3TestSAM
+      CodeUri: src
+      Runtime: provided
+      Handler: public/index.php
+      Layers: 
+        - （レイヤーARN）
+      Events:
+        rootAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPSlim3TestSAMAPI
+            Path: /
+            Method: ANY
+        proxyAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPSlim3TestSAMAPI
+            Path: /{proxy+}
+            Method: ANY

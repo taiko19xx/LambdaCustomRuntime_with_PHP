@@ -1,0 +1,1 @@
+Hello World! Runnning <?php echo $_SERVER['SERVER_SOFTWARE'] ?> on Lambda <?php echo $_ENV['AWS_LAMBDA_FUNCTION_NAME'] ?> Function!

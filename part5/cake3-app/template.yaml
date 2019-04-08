@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PHPCake3TestSAMAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+  PHPCake3TestSAMFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PHPCake3TestSAM
+      CodeUri: src
+      Runtime: provided
+      Handler: webroot/index.php
+      Layers: 
+        - （レイヤーARN）
+      Environment:
+        Variables:
+          DEBUG: false
+      Events:
+        rootAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPCake3TestSAMAPI
+            Path: /
+            Method: ANY
+        proxyAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPCake3TestSAMAPI
+            Path: /{proxy+}
+            Method: ANY

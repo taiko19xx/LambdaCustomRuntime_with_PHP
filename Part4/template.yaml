@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PHPRuntimeAppAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+
+  PHPRuntimeAppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PHPRuntimeFunction
+      CodeUri: src
+      Runtime: provided
+      Handler: index.php
+      Layers: 
+        - （レイヤーARN）
+      Events:
+        api:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPRuntimeAppAPI
+            Path: /
+            Method: ANY
