@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PHPDataStoreAppAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: v1
+  PHPDataStoreAppTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  PHPDataStoreAppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PHPDataStoreApp
+      CodeUri: src
+      Runtime: provided
+      Handler: public/index.php
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref PHPDataStoreAppTable
+      Environment:
+        Variables:
+          DynamoTableName: !Ref PHPDataStoreAppTable
+      Layers:
+        - （レイヤーARN）
+      Events:
+        rootAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPDataStoreAppAPI
+            Path: /
+            Method: ANY
+        proxyGETAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPDataStoreAppAPI
+            Path: /{proxy+}
+            Method: GET
+        proxyPOSTAPI:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PHPDataStoreAppAPI
+            Path: /{proxy+}
+            Method: POST
