@@ -5,8 +5,8 @@
 
 * 技術書典6/7
 * 第一回 技術書同人誌博覧会
-* BOOTH（https://morinomiyakono.booth.pm/items/1303123）
-* とらのあな（https://ec.toranoana.shop/tora/ec/item/040030762927）
+* BOOTH（ https://morinomiyakono.booth.pm/items/1303123 ）
+* とらのあな（ https://ec.toranoana.shop/tora/ec/item/040030762927 ）
 
 書籍はAmazonはじめ各ストアで販売中です。
 
